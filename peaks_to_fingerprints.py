@@ -18,7 +18,7 @@ import numpy as np
             Returns a list with length N, where N is the number of
             peaks. Each element has a tuple containing the keys,
             which are type Tuple, and the time bins, which are type
-            int."""
+            int. The keys are formatted as (f1, f2, t2-t1)."""
 def peaks_to_fingerprints(peaks, fanout):
     # gets two arrays, frequency and time. Use np.where on peaks
     freqs, times = np.where(peaks)
