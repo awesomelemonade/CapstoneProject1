@@ -1,3 +1,13 @@
+import numpy as np
+
+%matplotlib notebook
+import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
+
+from scipy.ndimage.filters import maximum_filter
+from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
+from scipy.ndimage.morphology import iterate_structure
+
 def dig_to_spec(data, fs):
     """Get the original data and returns the Spectrum, frequency and times associated with it
 
