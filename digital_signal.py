@@ -1,16 +1,6 @@
-
-# coding: utf-8
-
-# In[5]:
-
-
 import numpy as np
 import microphone
 import librosa
-
-
-# In[2]:
-
 
 def get_microphone_data(listen_time):
     '''
@@ -23,10 +13,6 @@ def get_microphone_data(listen_time):
     frames, sampling_rate = microphone.record_audio(listen_time)
     audio_data = np.hstack([np.frombuffer(i, np.int16) for i in frames])
     return audio_data, sampling_rate
-
-
-# In[62]:
-
 
 def get_mp3_data(file_path):
     '''

@@ -1,4 +1,5 @@
 # imports
+import databasing
 import numpy as np
 
 """ Intakes a 2D array of peaks and returns a List containing keys and times.
@@ -34,5 +35,6 @@ def peaks_to_fingerprints(peaks, fanout):
         t1 = times[j:len(times) - j - 1] # time 1
         # loops through each element, MAY NEED TO BE OPTIMIZED
         for i in range(len(f1)):
-            key_times.append(((f1[i], f2[i], delta_t[i]), t1[i])) # adds the tuple to the list
-    return keys_times
+            key_times.append(databasing.Fingerprint(f1[i], f2[i], delta_t[i], t1[i]))
+            #key_times.append(((f1[i], f2[i], delta_t[i]), t1[i])) # adds the tuple to the list
+    return key_times

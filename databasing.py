@@ -1,5 +1,7 @@
 
 import pickle
+from collections import Counter, namedtuple
+
 class AudioDatabase:
 	def __init__(self, filename):
 		self.filename = filename;
@@ -16,26 +18,16 @@ class AudioDatabase:
 	def load(self):
 		with open(self.filename, mode="rb") as file:
 			self.dictionary = pickle.load(file)
-
-def store(fingerprints, song):
-	for fingerprint in fingerprints:
-		database.put((fingerprint.frequency1, fingerprint.frequency2, fingerprint.delta), (song, fingerprint.time))
-
-from collections import Counter, namedtuple
-
-def predict(database, fingerprints):
-	counter = Counter()
-	for fingerprint in fingerprints:
-		matches = database.get((fingerprint.frequency1, fingerprint.frequency2, fingerprint.delta))
-		for match in matches:
-			counter.update((match[0], match[1] - fingerprint.time))
-	return counter.most_common()[0]
+	def store(self, fingerprints, song):
+		for fingerprint in fingerprints:
+			self.put((fingerprint.frequency1, fingerprint.frequency2, fingerprint.delta), (song, fingerprint.time))
+	def predict(self, database, fingerprints):
+		counter = Counter()
+		for fingerprint in fingerprints:
+			matches = self.get((fingerprint.frequency1, fingerprint.frequency2, fingerprint.delta))
+			for match in matches:
+				counter.update((match[0], match[1] - fingerprint.time))
+		return counter.most_common()[0]
 
 Fingerprint = namedtuple('Fingerprint', ['frequency1', 'frequency2', 'delta', 'time'])
-
-database = AudioDatabase("database.whydoyoucareaboutthisextension")
-database.put("HIIII", "BLABLA")
-database.save()
-fingerprint = Fingerprint(0, 1, 2, 3)
-print(fingerprint)
 

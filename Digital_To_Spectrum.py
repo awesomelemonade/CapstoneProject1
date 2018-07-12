@@ -1,3 +1,12 @@
+import numpy as np
+
+import matplotlib.pyplot as plt
+import matplotlib.mlab as mlab
+
+from scipy.ndimage.filters import maximum_filter
+from scipy.ndimage.morphology import generate_binary_structure, binary_erosion
+from scipy.ndimage.morphology import iterate_structure
+
 def dig_to_spec(data, fs):
     """Get the original data and returns the Spectrum, frequency and times associated with it
 
@@ -41,4 +50,4 @@ def spec_to_peaks(data, value, fp = generate_binary_structure(rank = 2, connecti
     """
 
     max_arr = maximum_filter(data, footprint = fp)
-    return (arr == max_arr) & (arr > value)
+    return (data == max_arr) & (data > value)
