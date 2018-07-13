@@ -8,11 +8,12 @@ def storeMP3toDatabase(directory, songId):
 	spectrogram = Digital_To_Spectrum.dig_to_spec(data, sampling_rate)
 	peaks = Digital_To_Spectrum.spec_to_peaks(spectrogram, 0)
 	fingerprints = peaks_to_fingerprints.peaks_to_fingerprints(peaks, 15)
+	print(fingerprints.shape)
 	database = databasing.AudioDatabase("database.whydoyoucareaboutthisextension")
 	database.store(fingerprints, songId)
 	database.save()
 def micMatch(duration):
-	data, sampling_rate = digital_signal.get_microphone_dat(duration)
+	data, sampling_rate = digital_signal.get_microphone_data(duration)
 	spectrogram = Digital_To_Spectrm.dig_to_spec(data, sampling_rate)
 	peaks = Digital_To_Spectrum.spec_to_peaks(spectrogram, 0)
 	fingerprints = peaks_to_fingerprints.peaks_to_fingerprints(peaks, 15)
@@ -22,4 +23,6 @@ def micMatch(duration):
 
 storeMP3toDatabase("./music/cake.mp3", 3)
 storeMP3toDatabase("./music/taco.mp3", 2)
+storeMP3toDatabase("./music/non-stop.mp3", 1)
+micMatch(10)
 
