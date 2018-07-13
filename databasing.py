@@ -21,7 +21,7 @@ class AudioDatabase:
 	def store(self, fingerprints, song):
 		for fingerprint in fingerprints:
 			self.put((fingerprint.frequency1, fingerprint.frequency2, fingerprint.delta), (song, fingerprint.time))
-	def predict(self, database, fingerprints):
+	def predict(self, fingerprints):
 		counter = Counter()
 		for fingerprint in fingerprints:
 			matches = self.get((fingerprint.frequency1, fingerprint.frequency2, fingerprint.delta))
