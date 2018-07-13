@@ -1,6 +1,4 @@
 import numpy as np
-
-%matplotlib notebook
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 
@@ -51,4 +49,4 @@ def spec_to_peaks(data, value, fp = generate_binary_structure(rank = 2, connecti
     """
 
     max_arr = maximum_filter(data, footprint = fp)
-    return (arr == max_arr) & (arr > value)
+    return (data == max_arr) & (data > value)
