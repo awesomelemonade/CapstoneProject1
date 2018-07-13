@@ -30,7 +30,7 @@ def dig_to_spec(data, fs):
                                   noverlap=4096 // 2)[0]
 
 
-def spec_to_peaks(data, value, fp = generate_binary_structure(rank = 2, connectivity=2)):
+def spec_to_peaks(data, value, fp = iterate_structure(generate_binary_structure(rank = 2, connectivity=2), 20)):
     """Gets the data and the cutoff and return the true and false values of the max
 
     Parameters
