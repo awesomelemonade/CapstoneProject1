@@ -16,19 +16,14 @@ def storeMP3toDatabase(directory, songId):
 	print(threshold)
 	fingerprints = peaks_to_fingerprints.peaks_to_fingerprints(peaks, 15)
 	print(fingerprints.shape)
-	database = databasing.AudioDatabase("database.whydoyoucareaboutthisextension")
-	database.load()
-	database.store(fingerprints, songId)
-	database.save()
-def micMatch(duration):
+	return fingerprints
+def micMatch(duration, database):
 	data, sampling_rate = digital_signal.get_microphone_data(duration)
 	spectrogram = Digital_To_Spectrum.dig_to_spec(data, sampling_rate)
 	threshold = np.percentile(spectrogram, 30)
 	peaks = Digital_To_Spectrum.spec_to_peaks(spectrogram, threshold)
 	fingerprints = peaks_to_fingerprints.peaks_to_fingerprints(peaks, 15)
 	print(fingerprints.shape)
-	database = databasing.AudioDatabase("database.whydoyoucareaboutthisextension")
-	database.load()
 	print(database.predict(fingerprints))
 def load():
 	database = databasing.AudioDatabase("database.whydoyoucareaboutthisextension")
@@ -36,16 +31,22 @@ def load():
 
 import os
 
+
+database = databasing.AudioDatabase("database.whydoyoucareaboutthisextension")
+
 directory = "./music/"
 for index, filename in enumerate(os.listdir(directory)):
 	print("Storing MP3: "+filename+" - "+str(index))
-	storeMP3toDatabase(directory + filename, index)
+	fingerprints = storeMP3toDatabase(directory + filename, index)
+	database.store(fingerprints, index)
 	if index == 5:
 		break
+
+database.save()
+
+micMatch(10, database)
 
 #storeMP3toDatabase("./music/taco.mp3", 0)
 
 #load()
-
-micMatch(10)
 
