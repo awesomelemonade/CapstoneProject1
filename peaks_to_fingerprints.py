@@ -27,14 +27,13 @@ def peaks_to_fingerprints(peaks, fanout):
     # creates list to return
     key_times = list()
 
-    # for loop for fanout
-    for j in range(fanout - 1):
-        f1 = freqs[j:len(times) - j - 1] # frequency 1
-        f2 = freqs[j + 1:len(times) - j] # frequency 2
-        delta_t = times[j + 1:len(times) - j] - times[j:len(times) - j - 1] # change between time 2 and time 1
-        t1 = times[j:len(times) - j - 1] # time 1
-        # loops through each element, MAY NEED TO BE OPTIMIZED
-        for i in range(len(f1)):
-            key_times.append(databasing.Fingerprint(f1[i], f2[i], delta_t[i], t1[i]))
-            #key_times.append(((f1[i], f2[i], delta_t[i]), t1[i])) # adds the tuple to the list
+    # for loop for fanout -- OPTIMIZED NOW, BLESS YOU ANNA
+    for j in range(1, fanout):
+        f1 = freqs[:len(freqs) - j] # frequency 1
+        f2 = freqs[j:] # frequency 2
+        delta_t = times[j:] - times[:len(times) - j] # change between time 2 and time 1
+        t1 = times[:len(times) - j] # time 1
+        # OMG BLESS YOU ANNA YOU MANAGED TO MAKE THIS OPTIMIZED
+        key_times = np.vstack((f1, f2, delta_t, t1)).T
+        key_times = list(tuple(zip(map(tuple, key_times[:,:3]), key_times[:, 3]))) # had to get rid of the named tuple for formatting, to be fixed
     return key_times
