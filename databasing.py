@@ -37,9 +37,11 @@ class AudioDatabase:
 			song: integer
 				An integer representing the song id
 		"""
-		fingerprints = fingerprints.view([('frequency1', 'int32'), ('frequency2', 'int32'), ('delta', 'int32'), ('time', 'int32')])
+		#fingerprints = fingerprints.view([('frequency1', 'int32'), ('frequency2', 'int32'), ('delta', 'int32'), ('time', 'int32')])
+		#for fingerprint in fingerprints:
+		#	self.put((fingerprint['frequency1'], fingerprint['frequency2'], fingerprint['delta']), (song, fingerprint['time']))
 		for fingerprint in fingerprints:
-			self.put((fingerprint['frequency1'], fingerprint['frequency2'], fingerprint['delta']), (song, fingerprint['time']))
+			self.put((fingerprint[0], fingerprint[1], fingerprint[2]), (song, fingerprint[3]))
 	def predict(self, fingerprints):
 		"""Predicts a song id based off stored dictionary and fingerprints
 		Parameters
@@ -51,11 +53,19 @@ class AudioDatabase:
 			songId: integer
 				An integer representing the song id
 		"""
+		"""
 		fingerprints = fingerprints.view([('frequency1', 'int32'), ('frequency2', 'int32'), ('delta', 'int32'), ('time', 'int32')])
 		counter = Counter()
 		for fingerprint in fingerprints:
 			matches = self.get((fingerprint['frequency1'], fingerprint['frequency2'], fingerprint['delta']))
 			for match in matches:
 				counter.update((match[0], match[1] - fingerprint['time']))
+		return counter.most_common()[0]
+		"""
+		counter = Counter()
+		for fingerprint in fingerprints:
+			matches = self.get((fingerprint[0], fingerprint[1], fingerprint[2]))
+			for match in matches:
+				counter.update((match[0], match[1] - fingerprint[3]))
 		return counter.most_common()[0]
 
