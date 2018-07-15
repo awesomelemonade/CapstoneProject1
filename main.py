@@ -33,18 +33,20 @@ import os
 
 
 database = databasing.AudioDatabase("database.whydoyoucareaboutthisextension")
-
+"""
 directory = "./music/"
 for index, filename in enumerate(os.listdir(directory)):
 	print("Storing MP3: "+filename+" - "+str(index))
 	fingerprints = storeMP3toDatabase(directory + filename, index)
 	database.store(fingerprints, index)
-	if index == 5:
-		break
 
 database.save()
+"""
+database.load()
 
-micMatch(10, database)
+while(True):
+	input("Waiting...")
+	micMatch(10, database)
 
 #storeMP3toDatabase("./music/taco.mp3", 0)
 
