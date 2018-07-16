@@ -67,6 +67,5 @@ class AudioDatabase:
 			matches = self.get((fingerprint[0], fingerprint[1], fingerprint[2]))
 			for match in matches:
 				counter[(match[0], match[1] - fingerprint[3])] += 1
-		print(counter)
-		return counter.most_common()[0]
+		return counter.most_common(3)
 
